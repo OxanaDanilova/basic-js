@@ -1,14 +1,15 @@
 const CustomError = require("../extensions/custom-error");
 
 class VigenereCipheringMachine {
+  constructor (mode) {
+    this.mode = mode;
+  }
   encrypt(string, key) {
     const result = [];
     const newKey = [];
     if (!string || !key) {
       throw new Error();
     }
-    console.log('string', string, '/n newString:', string.replace(/\s+/g, ''));
-    console.log('key', key);
     
     const newString = string.replace(/\s+/g, '');
     newString.split('').map((item, index)=> {
@@ -36,9 +37,12 @@ class VigenereCipheringMachine {
         result[i] = primer>=26?String.fromCharCode((primer%26)+65):String.fromCharCode(primer+65);
       }
     }
-    console.log('result', result.join(''));
+    if (this.mode === false && this.mode!==''){
+      return result.reverse().join('');
+    } else {
     return result.join('');
-  }    
+    }
+     }    
 
   decrypt(string, key) {
     const result = [];
@@ -46,9 +50,6 @@ class VigenereCipheringMachine {
     if (!string || !key) {
       throw new Error();
     }
-
-    console.log('string', string, '/n newString:', string.replace(/\s+/g, ''));
-    console.log('key', key);
     
     const newString = string.replace(/\s+/g, '');
     newString.split('').map((item, index)=> {
@@ -65,10 +66,6 @@ class VigenereCipheringMachine {
 
       }
     });
-    console.log('newKey', newKey);
-
-
-    
     for (let i=0; i<string.length; i++) {
       if (string.charAt(i)===' ' || string.toUpperCase().charCodeAt(i)<65 || string.toUpperCase().charCodeAt(i)>90){
         result[i] = string.charAt(i);
@@ -79,8 +76,11 @@ class VigenereCipheringMachine {
         result[i] = primer>=26?String.fromCharCode((primer%26)+65):String.fromCharCode(primer+65);
       }
     }
-    console.log('result', result.join(''));
+    if (this.mode === false && this.mode!==''){
+      return result.reverse().join('');
+    } else {
     return result.join('');
+    }
   }
 }
 
