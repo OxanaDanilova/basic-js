@@ -2,8 +2,9 @@ const CustomError = require("../extensions/custom-error");
 
 module.exports = function getSeason(date) {
 
-  let season = 'hhhhhhhhh';
-  if (date && date !== null && typeof date === 'object') {
+  let season = '';
+
+  if (date && date !== null && typeof date === 'object' && Object.keys(date).length===0) {
       let monthNum = date.getMonth();
       if (monthNum === 0 || monthNum === 1 || monthNum === 11) {
         season = 'winter';
@@ -17,16 +18,14 @@ module.exports = function getSeason(date) {
       if (monthNum === 8 || monthNum === 9 || monthNum === 10) {
         season = 'autumn (fall)';
       }
+    
       return season;
   } else {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!', date);
-    return 'Unable to determine the time of year!';
-    // throw new Error();
+    if (date && typeof date === 'object' && Object.keys(date).length>0) {
+      throw new Error();
+    } else {
+    return  'Unable to determine the time of year!';
+    }
   }
-
-
-
-
-
 
 };
