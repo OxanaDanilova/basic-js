@@ -6,29 +6,40 @@ const chainMaker = {
     return this.arr.length;
   },
   addLink(value) {
-    this.arr.push(value);
-    console.log(this.arr);
+    this.arr.push(String(value));
+    return this;
   },
   removeLink(position) {
-    if (typeof position !== 'number' || position>this.arr.length || position<0) {
+    if (typeof position !== 'number' || position>this.arr.length || position<=0) {
+      this.arr = [];
       throw new Error();
     } else {
-      this.arr.splice(position,1);
-      console.log(this.arr);
+      this.arr.splice(position-1,1);
+      return this;
     }
   },
   reverseChain() {
-    this.arr.reverse();
+    this.arr = this.arr.reverse();
+    return this;
   },
   finishChain() {
-    let result;
+    let result = '';
     this.arr.map((item, index)=> {
-      if (index  === 0 || index===this.arr.length) {
-        result.push(`( ${item} )`);
+      if (index  === 0 && this.arr.length>1) {
+        result += `( ${item} )~`;
       } else {
-        result.push(`~~( ${item} )~~`);
-      };
+        if (index === 0 && this.arr.length===1) {
+          result = `( ${item} )`
+        } else {
+          if (index=== this.arr.length-1) {
+            result += `~( ${item} )`;
+          } else {
+            result += `~( ${item} )~`;
+          };
+        }      
+      }      
     });
+    this.arr = [];
     return result;
   }
 };
